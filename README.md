@@ -39,11 +39,28 @@ For researchers in catalysis, corrosion science, and materials engineering, AiiD
 
 ```bash
 pip install aiida-teros
-Installation from Sourcegit clone [https://github.com/yourusername/aiida-teros.git](https://github.com/yourusername/aiida-teros.git)
+```
+
+### Installation from Source
+
+```bash
+git clone [https://github.com/yourusername/aiida-teros.git](https://github.com/yourusername/aiida-teros.git)
 cd aiida-teros
 pip install -e .
-Verify Installationverdi plugin list aiida.workflows | grep teros
-Quick StartBasic Examplefrom aiida import load_profile
+```
+
+### Verify Installation
+
+```bash
+verdi plugin list aiida.workflows | grep teros
+```
+
+## Quick Start
+
+### Basic Example
+
+```python
+from aiida import load_profile
 from aiida.orm import Dict, StructureData, load_code
 from aiida_teros.workflows.thermodynamics_workflow import create_thermodynamics_workgraph
 
@@ -106,7 +123,16 @@ inputs = {
 from aiida.engine import submit
 process = submit(wg, **inputs)
 print(f"Submitted workflow with PK: {process.pk}")
-DocumentationWorkflow StructureAiiDA-TEROS implements a hierarchical WorkGraph structure:ThermoWorkGraph
+```
+
+## Documentation
+
+### Workflow Structure
+
+AiiDA-TEROS implements a hierarchical WorkGraph structure:
+
+```
+ThermoWorkGraph
 ├── Preparation Phase
 │   ├── ValidateInputs Task
 │   ├── OptimizeBulk Task
@@ -126,7 +152,79 @@ DocumentationWorkflow StructureAiiDA-TEROS implements a hierarchical WorkGraph s
     ├── CalculateSurfaceEnergies Task
     ├── BuildPhaseStability Task
     └── VisualizeResults Task
-Available TasksStructure Tasks:prepare_bulk_structure: Prepare bulk structure for calculationsgenerate_miller_indices: Generate symmetrically distinct Miller indicescreate_surface_terminations: Create surface terminationsCalculation Tasks:run_espresso_scf: Run QE SCF calculationrun_espresso_relax: Run QE relaxation calculationAnalysis Tasks:calculate_formation_energy: Calculate formation energycalculate_surface_energies: Calculate surface energiesgenerate_phase_diagram: Generate phase diagramConfiguration OptionsStructure ParametersParameterTypeDescriptionmiller_indiceslistMiller indices [h,k,l]min_layersintMinimum number of atomic layersvacuum_sizefloatVacuum size in ÅsymmetricboolCreate symmetric slabsEspresso ParametersParameterTypeDescriptionecutwfcfloatPlane-wave cutoff energyecutrhofloatCharge density cutoffconv_thrfloatConvergence thresholdoccupationsstrOccupation typesmearingstrSmearing methoddegaussfloatSmearing widthThermodynamic ParametersParameterTypeDescriptiontemperaturefloatTemperature in KpressurelistPressure range [min, max] in atmchemical_potentialsdictChemical potential rangesExamplesSee the examples/ directory for complete working examples:examples/simple_oxide.py: Basic example for binary oxideexamples/complex_scenarios/ternary_oxide.py: Example for ternary oxideexamples/complex_scenarios/temperature_pressure.py: Temperature and pressure dependent exampleDevelopmentProject Structureaiida-teros/
+```
+
+### Available Tasks
+
+#### Structure Tasks:
+
+```
+prepare_bulk_structure: Prepare bulk structure for calculations
+generate_miller_indices: Generate symmetrically distinct Miller indices
+create_surface_terminations: Create surface terminations
+```
+
+#### Calculation Tasks:
+
+```
+run_espresso_scf: Run QE SCF calculation
+run_espresso_relax: Run QE relaxation calculation
+```
+
+#### Analysis Tasks:
+
+```
+calculate_formation_energy: Calculate formation energy
+calculate_surface_energies: Calculate surface energies
+generate_phase_diagram: Generate phase diagram
+```
+
+### Configuration Options
+
+#### Structure Parameters
+
+| Parameter       | Type  | Description                     |
+|-----------------|-------|---------------------------------|
+| miller_indices  | list  | Miller indices [h,k,l]         |
+| min_layers      | int   | Minimum number of atomic layers |
+| vacuum_size     | float | Vacuum size in Å               |
+| symmetric       | bool  | Create symmetric slabs         |
+
+#### Espresso Parameters
+
+| Parameter       | Type  | Description                     |
+|-----------------|-------|---------------------------------|
+| ecutwfc         | float | Plane-wave cutoff energy        |
+| ecutrho         | float | Charge density cutoff          |
+| conv_thr        | float | Convergence threshold          |
+| occupations     | str   | Occupation type                |
+| smearing        | str   | Smearing method                |
+| degauss         | float | Smearing width                 |
+
+#### Thermodynamic Parameters
+
+| Parameter          | Type  | Description                     |
+|--------------------|-------|---------------------------------|
+| temperature        | float | Temperature in K               |
+| pressure           | list  | Pressure range [min, max] in atm |
+| chemical_potentials| dict  | Chemical potential ranges      |
+
+## Examples
+
+See the examples/ directory for complete working examples:
+
+```
+examples/simple_oxide.py: Basic example for binary oxide
+examples/complex_scenarios/ternary_oxide.py: Example for ternary oxide
+examples/complex_scenarios/temperature_pressure.py: Temperature and pressure dependent example
+```
+
+## Development
+
+### Project Structure
+
+```
+aiida-teros/
 ├── aiida_teros/
 │   ├── __init__.py
 │   ├── data/
@@ -166,12 +264,46 @@ Available TasksStructure Tasks:prepare_bulk_structure: Prepare bulk structure fo
 ├── setup.py
 ├── pyproject.toml
 └── README.md
-Running Testspip install -e .[testing]
+```
+
+### Running Tests
+
+```bash
+pip install -e .[testing]
 pytest -v
-ContributingContributions are welcome! Please feel free to submit a Pull Request.Fork the repositoryCreate your feature branch (git checkout -b feature/amazing-feature)Commit your changes (git commit -m 'Add some amazing feature')Push to the branch (git push origin feature/amazing-feature)Open a Pull RequestPlease make sure your code adheres to the project's style guide and passes all tests.LicenseThis project is licensed under the MIT License - see the LICENSE file for details.AcknowledgmentsThis project builds on the AiiDA infrastructure for workflow management and provenance trackingQuantum Espresso is used for the underlying quantum mechanical calculationsThis work was supported by [Your funding agency or institution]CitationIf you use AiiDA-TEROS in your research, please cite:@software{aiida_teros,
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+Please make sure your code adheres to the project's style guide and passes all tests.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+This project builds on the AiiDA infrastructure for workflow management and provenance tracking. Quantum Espresso is used for the underlying quantum mechanical calculations. This work was supported by [Your funding agency or institution].
+
+## Citation
+
+If you use AiiDA-TEROS in your research, please cite:
+
+```bibtex
+@software{aiida_teros,
   author       = {Your Name},
   title        = {AiiDA-TEROS: Ab Initio Atomistic Thermodynamics for Surface Science},
   year         = {2025},
   publisher    = {GitHub},
   journal      = {GitHub repository},
-  url          = {
+  url          = {https://github.com/yourusername/aiida-teros}
+}
+```
